@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sistema Web de Gestión y Trazabilidad de Reparaciones | Talleres Mecánicos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* header / navbar */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 16px 0;
+        }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .logo p {
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .nav-links a {
+            margin-left: 32px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #334155;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+        @media (max-width: 768px) {
+            .nav-flex { flex-direction: column; gap: 12px; }
+            .nav-links a { margin: 0 16px; font-size: 0.9rem; }
+        }
+
+        /* hero */
+        .hero {
+            padding: 64px 0 48px;
+            background: linear-gradient(120deg, #eef2ff, #ffffff);
+        }
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 32px;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #334155;
+            max-width: 600px;
+            margin-bottom: 28px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 28px;
+            margin-top: 16px;
+        }
+        .stat-item {
+            font-weight: 600;
+        }
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #2563eb;
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        .hero-image i {
+            font-size: 12rem;
+            color: #3b82f6;
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2rem; }
+            .hero-image i { font-size: 8rem; }
+        }
+
+        /* secciones comunes */
+        .section {
+            padding: 64px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 24px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.03);
+            transition: all 0.2s;
+            border: 1px solid #eef2ff;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            font-size: 2.2rem;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            padding: 0;
+            margin-top: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        .badge-in {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        .badge-out {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .tech {
+            background: #e6f0ff;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e3a8a;
+        }
+        .footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #2563eb;
+            color: #2563eb;
+        }
+        .btn-outline:hover {
+            background: #eef2ff;
+        }
+        .mt-4 {
+            margin-top: 20px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container nav-flex">
+        <div class="logo">
+            <h1>AutoTraz<span style="color:#2563eb;">+</span></h1>
+            <p>Gestión & Trazabilidad de Reparaciones</p>
+        </div>
+        <div class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#objetivos">Objetivos</a>
+            <a href="#alcance">Alcance</a>
+            <a href="#justificacion">Justificación</a>
+            <a href="#arquitectura">Arquitectura</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <!-- Hero / Inicio -->
+    <section id="inicio" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fas fa-tools"></i> Proyecto Ingeniería de Sistemas</div>
+                <h1>Sistema Web de Gestión y Trazabilidad de Reparaciones<br>para Talleres Mecánicos Automotrices</h1>
+                <p>Registra, gestiona y traza el ciclo completo de reparación de vehículos. Elimina pérdida de información, reduce tiempos de atención y construye historial técnico por unidad vehicular.</p>
+                <div class="hero-stats">
+                    <div class="stat-item"><span class="stat-number">10+</span><br>vehículos/día</div>
+                    <div class="stat-item"><span class="stat-number">-85%</span><br>tiempo búsqueda</div>
+                    <div class="stat-item"><span class="stat-number">100%</span><br>trazabilidad</div>
+                </div>
+                <div class="mt-4">
+                    <a href="#alcance" class="btn">Conocer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-car-side"></i>
+                <i class="fas fa-clipboard-list" style="font-size: 4rem; margin-left: -20px; color:#3b82f6;"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objetivos -->
+    <section id="objetivos" class="section">
+        <div class="container">
+            <h2 class="section-title">Objetivos del Proyecto</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Objetivo General</h3>
+                    <p>Desarrollar un sistema web que permita registrar, gestionar y trazar el ciclo completo de reparación de vehículos en talleres mecánicos, eliminando pérdida de información entre visitas y generando historial técnico por unidad vehicular.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-list-check"></i></div>
+                    <h3>Objetivos Específicos</h3>
+                    <ul style="margin-left: 20px; color:#334155;">
+                        <li>OE-01: Modelar proceso de recepción/entrega.</li>
+                        <li>OE-02: Módulo de órdenes de trabajo.</li>
+                        <li>OE-03: Historial por placa/VIN en tiempo real.</li>
+                        <li>OE-04: Notificaciones por correo electrónico.</li>
+                        <li>OE-05: Reportes operativos (carga por mecánico, tiempos).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alcance Funcional y Taxonomía -->
+    <section id="alcance" class="section">
+        <div class="container">
+            <h2 class="section-title">Alcance Funcional & Módulos</h2>
+            <p style="margin-bottom: 24px;">Clasificado como <strong>Sistema de Información orientado a gestión operacional</strong> (Pressman & Maxim, 2021). Combina procesamiento de transacciones y consulta interactiva de historial.</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Módulo</th><th>Funcionalidades incluidas</th><th>Estado</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Autenticación y roles</td><td>Login mecánico / administrador, PIN individual</td><td><span class="badge-in"><i class="fas fa-check-circle"></i> En alcance</span></td></tr>
+                        <tr><td>Recepción de vehículos</td><td>Registro de cliente, vehículo (placa/VIN), diagnóstico inicial, km</td><td><span class="badge-in">En alcance</span></td></tr>
+                        <tr><td>Órdenes de trabajo</td><td>Creación, asignación a mecánico, estados (pendiente/en proceso/listo), repuestos</td><td><span class="badge-in">En alcance</span></td></tr>
+                        <tr><td>Historial por vehículo</td><td>Consulta por placa/VIN y por cliente; visualización de reparaciones anteriores</td><td><span class="badge-in">En alcance</span></td></tr>
+                        <tr><td>Notificaciones</td><td>Alerta por cambio de estado vía correo electrónico</td><td><span class="badge-in">En alcance</span></td></tr>
+                        <tr><td>Reportes operativos</td><td>Carga por mecánico, tiempo promedio, reparaciones por período</td><td><span class="badge-in">En alcance</span></td></tr>
+                        <tr><td>Módulo de pagos / facturación</td><td>Integración con sistema contable o emisión de facturas electrónicas</td><td><span class="badge-out"><i class="fas fa-ban"></i> Fuera del alcance</span></td></tr>
+                        <tr><td>App móvil nativa</td><td>Versión Android/iOS para clientes o mecánicos</td><td><span class="badge-out">Fuera del alcance</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cards-grid" style="margin-top: 48px;">
+                <div class="card">
+                    <i class="fas fa-chart-line card-icon"></i>
+                    <h3>Requisitos Clave (MoSCoW)</h3>
+                    <p><strong>Must:</strong> Registro Órdenes, Historial, Consulta por placa, Seguridad PIN.<br>
+                    <strong>Should:</strong> Fichas de servicio, Citas, Rendimiento menor 3s.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-database card-icon"></i>
+                    <h3>Modelo de Datos</h3>
+                    <p>Entidades principales: CLIENTE, VEHÍCULO, ORDEN_TRABAJO, MECÁNICO. Relaciones normalizadas con FK y PK, diccionario de datos completo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Justificaciones -->
+    <section id="justificacion" class="section">
+        <div class="container">
+            <h2 class="section-title">Justificación del Proyecto</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-coins card-icon"></i>
+                    <h3>Justificación Económica</h3>
+                    <p>El proceso manual genera costos ocultos por búsqueda de historiales (>10 min por caso). El sistema elimina reprocesos y reduce errores en cotización de repuestos. Costo mensual de búsqueda estimado entre Bs. 480 y 1.200, eliminado con la automatización.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-graduation-cap card-icon"></i>
+                    <h3>Justificación Académica</h3>
+                    <p>Aplicación de Ingeniería de Requisitos (Sommerville) con técnicas mixtas: observación directa y entrevista semiestructurada. Arquitectura tres capas (presentación, lógica, datos) y principios de separación de responsabilidades.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-hand-holding-heart card-icon"></i>
+                    <h3>Justificación Social</h3>
+                    <p>Microempresas de reparación vehicular representan el 7,3% de unidades económicas en La Paz (INE, 2023). El sistema mejora transparencia, reduce asimetría de información y se alinea con la Ley N.° 164 de Telecomunicaciones y TIC de Bolivia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arquitectura y UI + trazabilidad -->
+    <section id="arquitectura" class="section">
+        <div class="container">
+            <h2 class="section-title">Arquitectura & Tecnologías</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Capa</th><th>Componente</th><th>Tecnología propuesta</th></tr></thead>
+                    <tbody>
+                        <tr><td>Presentación</td><td>Interfaz web responsive (SPA ligero)</td><td>HTML5, CSS3, JavaScript</td></tr>
+                        <tr><td>Lógica de negocio</td><td>API REST - controladores, servicios, validaciones</td><td>Python 3.x + Flask</td></tr>
+                        <tr><td>Persistencia</td><td>Base de datos relacional</td><td>MySQL 8.x</td></tr>
+                        <tr><td>Comunicación</td><td>Protocolo HTTP/HTTPS</td><td>JSON + JWT para autenticación</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tech-stack">
+                <span class="tech"><i class="fab fa-html5"></i> HTML5</span>
+                <span class="tech"><i class="fab fa-css3-alt"></i> CSS3</span>
+                <span class="tech"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="tech"><i class="fab fa-python"></i> Flask</span>
+                <span class="tech"><i class="fas fa-database"></i> MySQL</span>
+                <span class="tech"><i class="fas fa-key"></i> JWT</span>
+            </div>
+            
+            <h3 style="margin: 48px 0 16px 0;">Wireframes & Trazabilidad con DER</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Pantalla principal</th><th>Entidades involucradas</th></tr></thead>
+                    <tbody>
+                        <tr><td>Login / Autenticación</td><td>MECÁNICO (pin_acceso, rol)</td></tr>
+                        <tr><td>Registro vehículo y cliente</td><td>CLIENTE, VEHÍCULO</td></tr>
+                        <tr><td>Nueva orden de trabajo</td><td>ORDEN_TRABAJO, VEHÍCULO, MECÁNICO, REPUESTO</td></tr>
+                        <tr><td>Historial por placa</td><td>VEHÍCULO, ORDEN_TRABAJO</td></tr>
+                        <tr><td>Panel de reportes</td><td>MECÁNICO, ORDEN_TRABAJO</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cards-grid mt-4">
+                <div class="card">
+                    <i class="fas fa-diagram-project card-icon"></i>
+                    <h3>Caso de uso principal</h3>
+                    <p><strong>CU03 – Consultar Historial por Placa:</strong> El mecánico ingresa placa, el sistema muestra órdenes previas (fecha, diagnóstico, repuestos). Si no existe historial, se habilita nueva orden. Postcondición: visualización completa.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-clipboard-list card-icon"></i>
+                    <h3>Matriz RTM (OE → RF → CU → DER)</h3>
+                    <p>Conecta objetivos específicos con requisitos funcionales (RF01 a RF05), casos de uso y entidades. Asegura coherencia integral del diseño y la trazabilidad desde el levantamiento hasta la base de datos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipo & referencias -->
+    <section class="section" style="background: #f1f5f9;">
+        <div class="container">
+            <div class="cards-grid">
+                <div class="card text-center">
+                    <i class="fas fa-user-astronaut card-icon"></i>
+                    <h3>Integrante</h3>
+                    <p style="font-weight: 600;">Judith Noemi Uturunco Mamani</p>
+                    <p>Estudiante de Ingeniería de Sistemas</p>
+                </div>
+                <div class="card text-center">
+                    <i class="fas fa-chalkboard-user card-icon"></i>
+                    <h3>Docente</h3>
+                    <p style="font-weight: 600;">Javier Elvis Canqui Llusco</p>
+                    <p>Paralelo 2 · El Alto – Bolivia 2026</p>
+                </div>
+                <div class="card text-center">
+                    <i class="fas fa-university card-icon"></i>
+                    <h3>Universidad</h3>
+                    <p>Universidad Privada Franz Tamayo<br>Facultad de Ingeniería - Carrera de Ingeniería de Sistemas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nota de proyecto -->
+    <div class="container" style="padding: 24px 24px 48px;">
+        <div class="table-wrapper">
+            <div style="padding: 20px;">
+                <i class="fas fa-tasks" style="color:#2563eb; margin-right: 12px;"></i>
+                <strong>Estado del proyecto:</strong> Definición completa – Ingeniería de requisitos, modelo DER, casos de uso UML, y priorización MoSCoW. Listo para fase de desarrollo e implementación piloto.
+                <div style="margin-top: 12px; font-size: 0.85rem; color: #475569;">
+                    📚 Referencias: Pressman & Maxim (2021), Sommerville (2016), Laudon & Laudon (2020), Ley N.° 164 Bolivia, INE 2023.
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p><i class="far fa-registered"></i> Sistema Web de Gestión y Trazabilidad de Reparaciones | Trabajo de investigación - Ingeniería de Sistemas</p>
+        <p style="margin-top: 12px; font-size: 0.8rem;">El Alto – Bolivia, 2026 · Proyecto académico con enfoque de mejora continua para talleres mecánicos automotrices.</p>
+        <div style="margin-top: 16px;">
+            <i class="fab fa-github"></i> <i class="fab fa-python"></i> <i class="fas fa-database"></i> <i class="fas fa-envelope"></i>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
